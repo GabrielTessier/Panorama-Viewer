@@ -27,4 +27,4 @@ Add the following script (change ="URL to image with x, y and zoom"= with the va
 To try the example (=example.html=) just type =python3 -m http.server= in your terminal and open [[http://localhost:8000/example.html]] in your browser.
 
 *** Images come from google :
-[[https://maps.app.goo.gl/PSa4Re8HVmUtx7qT9]]
+[[https://maps.app.goo.gl/J83ZL5JyX1EgCYSG7]]
