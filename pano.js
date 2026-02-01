@@ -203,7 +203,6 @@ function pano(makeUrl) {
     var textureInfos = [];
     for (var iy = 0; iy < levelsH[_zoom]; iy++) {
         for (var ix = 0; ix < levelsW[_zoom]; ix++) {
-            //textureInfos.push(loadImageAndCreateTextureInfo(baseUrl + '&panoid=' + panoId + '&x=' + ix + '&y=' + iy + '&zoom=' + _zoom));
             textureInfos.push(loadImageAndCreateTextureInfo(makeUrl(ix, iy, _zoom)));
         }
     }
@@ -258,7 +257,6 @@ function pano(makeUrl) {
         });
     }
 
-    //var wheel = 1.0;
     var realZoom = 3.0;
     var rotX = 0;
     var rotY = 0;
@@ -272,7 +270,6 @@ function pano(makeUrl) {
         realZoom += event.wheelDelta / 100;
         if (realZoom < 2.0) realZoom = 2.0;
         if (realZoom > 40.0) realZoom = 40.0;
-        //realZoom = wheel * 3.0;
     }
     document.onmousemove = (event) => {
         event = event || window.event; // IE-ism
