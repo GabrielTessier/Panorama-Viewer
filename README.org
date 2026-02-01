@@ -1,0 +1,30 @@
+
+* Panorama viewer
+
+** How to use
+
+Add a canvas with id =pano= in your html
+
+#+begin_src html
+  <canvas id="pano"></canvas>
+#+end_src
+
+Add the following script (change ="URL to image with x, y and zoom"= with the valid url)
+
+#+begin_src html
+  <script src="https://webglfundamentals.org/webgl/resources/webgl-utils.js"></script>
+  <script src="https://webglfundamentals.org/webgl/resources/m4.js"></script>
+  <script src="pano.js"></script>
+  <script>
+    pano((x, y, zoom) => {
+      return "URL to image with x, y and zoom";
+    });
+  </script>
+#+end_src
+
+** Example
+
+To try the example (=example.html=) just type =python3 -m http.server= in your terminal and open [[http://localhost:8000/example.html]] in your browser.
+
+*** Images come from google :
+[[https://maps.app.goo.gl/PSa4Re8HVmUtx7qT9]]

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Panorama example</title>
+    <style>
+     body {
+       margin: 0;
+     }
+     canvas {
+       width: 100vw;
+       height: 100vh;
+       display: block;
+       border: none;
+     }
+    </style>
+  </head>
+  <body>
+    <canvas id="pano"></canvas>
+
+    <script src="https://webglfundamentals.org/webgl/resources/webgl-utils.js"></script>
+    <script src="https://webglfundamentals.org/webgl/resources/m4.js"></script>
+    <script src="pano.js"></script>
+    <script>
+     pano((x, y, zoom) => {
+       return "img/img_" + x + "_" + y + "_" + zoom + ".jpeg";
+     });
+    </script>
+  </body>
+</html>
