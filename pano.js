@@ -9,7 +9,6 @@ var vertexShader =
     "uniform vec2 canvasSize;\n" +
     "uniform vec2 ratio;\n" +
     "uniform float zoom;\n" +
-    "uniform float FOV_fact;\n" +
     "\n" +
     "varying vec2 v_texcoord;\n" +
     "varying vec4 global_texcoord;\n" +
@@ -125,9 +124,6 @@ function pano(makeUrl) {
     var canvasSizeLocation = gl.getUniformLocation(program, "canvasSize");
     var ratioLocation = gl.getUniformLocation(program, "ratio");
     var zoomLocation = gl.getUniformLocation(program, "zoom");
-    var fovLocation = gl.getUniformLocation(program, "FOV_fact");
-
-    const FOV = 0.8
 
     // Create a buffer.
     var positionBuffer = gl.createBuffer();
@@ -346,7 +342,6 @@ function pano(makeUrl) {
         gl.uniform2f(ratioLocation, gl.canvas.width / (levelsW[_zoom]*tileSize), gl.canvas.height / (levelsH[_zoom]*tileSize));
 
         gl.uniform1f(zoomLocation, realZoom);
-        gl.uniform1f(fovLocation, FOV);
 
         // draw the quad (2 triangles, 6 vertices)
         gl.drawArrays(gl.TRIANGLES, 0, 6);
