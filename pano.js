@@ -90,6 +90,10 @@ function pano(makeUrl) {
     // Get A WebGL context
     /** @type {HTMLCanvasElement} */
     var canvas = document.querySelector("#pano");
+    if (!canvas) {
+        console.error("no canvas with id 'pano'");
+        return;
+    }
     var gl = canvas.getContext("webgl");
     if (!gl) {
         return;
