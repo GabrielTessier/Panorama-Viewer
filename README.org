@@ -17,8 +17,8 @@ Add the following script (change ="URL to image with x, y and zoom"= with the va
   <script src="pano.js"></script>
   <script>
     pano((x, y, zoom) => {
-      return "URL to image with x, y and zoom";
-    });
+       return "img/img_" + x + "_" + y + "_" + zoom + ".jpeg";
+     }, 32, 16, null);
   </script>
 #+end_src
 

@@ -86,7 +86,11 @@ var fragmentShader =
     "  gl_FragColor = texture2D(u_texture, v_texcoord);\n" +
     "}\n";
 
-function pano(makeUrl) {
+
+var panoAngleX = 0;
+var panoAngleY = 0;
+
+function pano(makeUrl, nbX, nbY, onRotate) {
     // Get A WebGL context
     /** @type {HTMLCanvasElement} */
     var canvas = document.querySelector("#pano");
@@ -195,14 +199,17 @@ function pano(makeUrl) {
 
     const _zoom = 5;
 
-    const levelsW = [ 1, 2, 4, 8, 16, 32 ];
-    const levelsH = [ 1, 1, 2, 4, 8, 16 ];
+    const levelsW = [ 1, 2, 4, 8, 16, nbX ];
+    const levelsH = [ 1, 1, 2, 4, 8, nbY ];
 
     function getRandomInt(max) {
         return Math.floor(Math.random() * max);
     }
 
-    const initX = getRandomInt(levelsW[_zoom]) + 5;
+    panoAngleX = Math.floor(Math.random() * 2 * Math.PI);
+    if (onRotate != null) {
+        onRotate();
+    }
 
     var textureInfos = [];
     for (var iy = 0; iy < levelsH[_zoom]; iy++) {
@@ -230,7 +237,7 @@ function pano(makeUrl) {
         for (var iy = 0; iy < levelsH[_zoom]; iy++) {
             for (var ix = 0; ix < levelsW[_zoom]; ix++) {
                 var drawInfo = {
-                    x: (ix+initX) % levelsW[_zoom],
+                    x: ix,
                     y: iy,
                     textureInfo: textureInfos[ix + iy*levelsW[_zoom]],
                 };
@@ -262,8 +269,6 @@ function pano(makeUrl) {
     }
 
     var realZoom = 3.0;
-    var rotX = 0;
-    var rotY = 0;
     var mouseDownRotX = 0;
     var mouseDownRotY = 0;
     var mouseDownX = 0;
@@ -278,15 +283,18 @@ function pano(makeUrl) {
     document.onmousemove = (event) => {
         event = event || window.event; // IE-ism
         if (isMouseDown) {
-            rotX = mouseDownRotX + (event.pageX - mouseDownX) * 2 * 3.14 / (gl.canvas.width * realZoom);
-            rotY = mouseDownRotY - (event.pageY - mouseDownY) * 2 * 3.14 / (gl.canvas.height * realZoom);
+            panoAngleX = mouseDownRotX + (event.pageX - mouseDownX) * 2 * 3.14 / (gl.canvas.width * realZoom);
+            panoAngleY = mouseDownRotY - (event.pageY - mouseDownY) * 2 * 3.14 / (gl.canvas.height * realZoom);
+            if (onRotate != null) {
+                onRotate();
+            }
         }
     }
     document.onmousedown = (event) => {
         mouseDownX = event.pageX;
         mouseDownY = event.pageY;
-        mouseDownRotX = rotX;
-        mouseDownRotY = rotY;
+        mouseDownRotX = panoAngleX;
+        mouseDownRotY = panoAngleY;
         isMouseDown = true;
     }
     document.onmouseup = (event) => {
@@ -336,8 +344,8 @@ function pano(makeUrl) {
         // Tell the shader to get the texture from texture unit 0
         gl.uniform1i(textureLocation, 0);
 
-        gl.uniform1f(phiLocation, rotX);
-        gl.uniform1f(lambdaLocation, rotY);
+        gl.uniform1f(phiLocation, panoAngleX);
+        gl.uniform1f(lambdaLocation, panoAngleY);
 
         gl.uniform2f(canvasSizeLocation, gl.canvas.width, gl.canvas.height);
         gl.uniform2f(ratioLocation, gl.canvas.width / (levelsW[_zoom]*tileSize), gl.canvas.height / (levelsH[_zoom]*tileSize));
